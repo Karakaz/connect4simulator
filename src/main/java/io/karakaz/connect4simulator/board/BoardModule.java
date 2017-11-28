@@ -1,19 +1,18 @@
 package io.karakaz.connect4simulator.board;
 
+import dagger.Module;
+import dagger.Provides;
 import io.karakaz.connect4simulator.board.line.Column;
 import io.karakaz.connect4simulator.board.line.Line;
 import io.karakaz.connect4simulator.board.line.Lines;
 import io.karakaz.connect4simulator.board.slot.Slot;
 
-public class BoardCreator {
+@Module
+public class BoardModule {
 
 	private final Slot[][] slots;
 
-	public static Board createBoard() {
-		return new BoardCreator().create();
-	}
-
-	private BoardCreator() {
+	public BoardModule() {
 		slots = new Slot[Board.WIDTH][Board.HEIGHT];
 		for (int x = 0; x < slots.length; x++) {
 			for (int y = 0; y < slots[x].length; y++) {
@@ -22,7 +21,8 @@ public class BoardCreator {
 		}
 	}
 
-	private Board create() {
+	@Provides
+	Board create() {
 		return new Board(
 			 createRows(),
 			 createColumns(),

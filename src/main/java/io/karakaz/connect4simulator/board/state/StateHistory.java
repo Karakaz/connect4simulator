@@ -39,9 +39,9 @@ public class StateHistory {
 	}
 
 	public String toCSV() {
-		states.stream()
-			 .map(State::flatten)
-			 .collect(Collectors.)
+//		states.stream()
+//			 .map(State::flatten)
+//			 .collect(Collectors.)
 		return null;
 	}
 }

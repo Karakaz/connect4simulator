@@ -29,11 +29,11 @@ public class SimulationInserter extends DBPreparedStatement {
 
 	@Override
 	protected void queryDatabase(PreparedStatement preparedStatement) throws SQLException {
-		preparedStatement.set(1, );
-		preparedStatement.set(2, );
-		preparedStatement.set(3, );
-		preparedStatement.set(4, );
-		preparedStatement.set(5, );
+//		preparedStatement.set(1, );
+//		preparedStatement.set(2, );
+//		preparedStatement.set(3, );
+//		preparedStatement.set(4, );
+//		preparedStatement.set(5, );
 	}
 
 }

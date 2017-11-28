@@ -1,21 +1,24 @@
 package io.karakaz.connect4simulator;
 
-import io.karakaz.connect4simulator.board.state.StateHistory;
-import io.karakaz.connect4simulator.db.DBHandler;
+import javax.inject.Inject;
+
+import io.karakaz.connect4simulator.board.Board;
+import io.karakaz.connect4simulator.db.DBConnector;
+import io.karakaz.connect4simulator.DaggerMyComponent;
 
 public class Main {
 
-	public static void main(String[] args) throws InterruptedException {
-		DBHandler.initialize();
-
-		Game connectFour = new Game();
-
-		while (!connectFour.gameOver().isPresent()) {
-			connectFour.playTurn();
-		}
-
-		StateHistory stateHistory = connectFour.getStateHistory();
-		System.out.println(stateHistory);
+	private Main() {
+		DBConnector.initialize();
 	}
 
+	private void simulate() {
+		GameSimulator gameSimulator = new GameSimulator();
+		gameSimulator.simulateGames();
+	}
+
+	public static void main(String[] args) {
+		Main main = new Main();
+		main.simulate();
+	}
 }
