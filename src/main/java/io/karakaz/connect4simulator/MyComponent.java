@@ -12,4 +12,6 @@ public interface MyComponent {
 
 	Board provideBoard();
 
+	void inject(GameSimulator gameSimulator);
+
 }

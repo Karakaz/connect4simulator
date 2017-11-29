@@ -9,7 +9,7 @@ import io.karakaz.connect4simulator.board.slot.Disc;
 import io.karakaz.connect4simulator.board.state.State;
 import io.karakaz.connect4simulator.board.state.StateHistory;
 
-public class GameSimulation {
+public class Game {
 
 	private static final Random random = new Random();
 
@@ -20,7 +20,7 @@ public class GameSimulation {
 
 	private boolean yellowsTurn;
 
-	public GameSimulation(Board board, Player player1, Player player2) {
+	public Game(Board board, Player player1, Player player2) {
 		this.board = board;
 		this.player1 = player1;
 		this.player2 = player2;

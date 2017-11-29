@@ -4,8 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import io.karakaz.connect4simulator.Game;
 import io.karakaz.connect4simulator.board.slot.Disc;
 import io.karakaz.connect4simulator.board.state.StateHistory;
+import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
 public class SimulationInserter extends DBPreparedStatement {
 
@@ -18,7 +20,7 @@ public class SimulationInserter extends DBPreparedStatement {
 
 
 
-	public SimulationInserter(StateHistory stateHistory) {
+	public SimulationInserter(ConnectFourSimulation connectFourSimulation) {
 		super(SQL);
 		player1_id = 1;
 		player2_id = 1;
