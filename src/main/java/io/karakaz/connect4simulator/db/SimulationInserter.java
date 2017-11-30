@@ -12,30 +12,33 @@ import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 public class SimulationInserter extends DBPreparedStatement {
 
 	private static final String SQL = "INSERT";
-	private final int player1_id;
-	private final int player2_id;
-	private final int winner;
-	private final String final_state;
-	private final String states_csv;
+	private long player1_id;
+	private long player2_id;
+//	private int winner;
+//	private String final_state;
+//	private String states_csv;
 
 
 
-	public SimulationInserter(ConnectFourSimulation connectFourSimulation) {
+	public SimulationInserter() {
 		super(SQL);
-		player1_id = 1;
-		player2_id = 1;
-		winner = stateHistory.getWinner() == Disc.YELLOW ? 1 : 2;
-		final_state = stateHistory.getFinalState().flatten();
-		states_csv = stateHistory.toCSV();
+	}
+
+	public void insertSimulation(ConnectFourSimulation connectFourSimulation) {
+		player1_id = connectFourSimulation.getPlayer1Id();
+		player2_id = connectFourSimulation.getPlayer2Id();
+		//		winner = stateHistory.getWinner() == Disc.YELLOW ? 1 : 2;
+		//		final_state = stateHistory.getFinalState().flatten();
+		//		states_csv = stateHistory.toCSV();
+		initiateQuery();
 	}
 
 	@Override
 	protected void queryDatabase(PreparedStatement preparedStatement) throws SQLException {
-//		preparedStatement.set(1, );
-//		preparedStatement.set(2, );
+		preparedStatement.setLong(1, player1_id);
+		preparedStatement.setLong(2, player2_id);
 //		preparedStatement.set(3, );
 //		preparedStatement.set(4, );
 //		preparedStatement.set(5, );
 	}
-
 }

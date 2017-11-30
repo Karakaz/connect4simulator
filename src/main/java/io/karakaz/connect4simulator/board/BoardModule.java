@@ -22,7 +22,7 @@ public class BoardModule {
 	}
 
 	@Provides
-	Board create() {
+	Board provideBoard() {
 		return new Board(
 			 createRows(),
 			 createColumns(),

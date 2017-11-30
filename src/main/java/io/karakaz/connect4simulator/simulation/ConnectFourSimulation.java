@@ -14,4 +14,11 @@ public class ConnectFourSimulation {
 		this.game = game;
 	}
 
+	public long getPlayer1Id() {
+		return game.getPlayer1().getId();
+	}
+
+	public long getPlayer2Id() {
+		return game.getPlayer2().getId();
+	}
 }

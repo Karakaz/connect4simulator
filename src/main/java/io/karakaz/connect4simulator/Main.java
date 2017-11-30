@@ -1,9 +1,6 @@
 package io.karakaz.connect4simulator;
 
-import javax.inject.Inject;
-
 import io.karakaz.connect4simulator.db.DBConnector;
-import io.karakaz.connect4simulator.DaggerMyComponent;
 
 public class Main {
 
@@ -11,14 +8,18 @@ public class Main {
 		DBConnector.initialize();
 	}
 
-	private void simulate() {
-		GameSimulator gameSimulator = new GameSimulator();
-		DaggerMyComponent.create().inject(gameSimulator);
-		gameSimulator.simulateGames(null);
+	private void simulate(Args args) {
+		MyComponent myComponent = io.karakaz.connect4simulator.DaggerMyComponent.builder()
+			 .simulationConfigModule(new SimulationConfigModule(args))
+			 .build();
+
+		Simulator simulator = myComponent.provideSimulator();
+		simulator.simulate(myComponent);
 	}
 
 	public static void main(String[] args) {
 		Main main = new Main();
-		main.simulate();
+		Args a = new Args(args);
+		main.simulate(a);
 	}
 }

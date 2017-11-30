@@ -9,20 +9,24 @@ import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
 public class GameSimulator {
 
-	@Inject
-	Board board;
+	private final GameProvider gameProvider;
+	private final SimulationConfig simulationConfig;
 
-	public void simulateGames(SimulationConfig simulationConfig) {
-		Player player1 = new Player();
-		Player player2 = new Player();
-		Game game = new Game(board, player1, player2);
+	GameSimulator(GameProvider gameProvider, SimulationConfig simulationConfig) {
+		this.gameProvider = gameProvider;
+		this.simulationConfig = simulationConfig;
+	}
 
+	ConnectFourSimulation simulateGame() {
+		Game game = gameProvider.provideGame();
 		while (!game.gameOver().isPresent()) {
 			game.playTurn();
 		}
+		System.out.println(game.getStateHistory());
+		return new ConnectFourSimulation(game);
+	}
 
-		ConnectFourSimulation connectFourSimulation = new ConnectFourSimulation(game);
-
-		SimulationInserter simulationInserter = new SimulationInserter(connectFourSimulation);
+	public boolean isDone() {
+		return false;
 	}
 }
