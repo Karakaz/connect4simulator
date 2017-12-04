@@ -1,19 +1,19 @@
-package io.karakaz.connect4simulator.db;
+package io.karakaz.connect4simulator.db.table;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SimulationTableCreator extends DBStatement {
+import io.karakaz.connect4simulator.db.DBStatement;
+
+public class PlayerTableCreator extends DBStatement {
 
 	@Override
 	protected void queryDatabase(Statement statement) throws SQLException {
 		String sql = "CREATE TABLE "
-			 + "IF NOT EXISTS simulation ("
+			 + "IF NOT EXISTS player ("
 			 + "id INTEGER PRIMARY KEY, "
-			 + "player1_id INTEGER NOT NULL, "
-			 + "player2_id INTEGER NOT NULL, "
-			 + "winner INTEGER NOT NULL, "
-			 + "states_csv TEXT NOT NULL, "
+			 + "type TEXT NOT NULL, "
+			 + "name TEXT NOT NULL, "
 			 + "created TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 		statement.execute(sql);
 	}

@@ -1,10 +1,5 @@
 package io.karakaz.connect4simulator;
 
-import javax.inject.Inject;
-
-import io.karakaz.connect4simulator.board.Board;
-import io.karakaz.connect4simulator.board.state.StateHistory;
-import io.karakaz.connect4simulator.db.SimulationInserter;
 import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
 public class GameSimulator {

@@ -8,12 +8,12 @@ public class PlayerModule {
 
 	@Provides
 	Player1 providePlayer1(SimulationConfig simulationConfig) {
-		return new Player1();
+		return new Player1(1000);
 	}
 
 	@Provides
 	Player2 providePlayer2(SimulationConfig simulationConfig) {
-		return new Player2();
+		return new Player2(1000);
 	}
 
 }

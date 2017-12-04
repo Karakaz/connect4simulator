@@ -14,12 +14,12 @@ public abstract class DBPreparedStatement extends DBConnector {
 		this.preparedSql = preparedSql;
 	}
 
-	protected abstract void queryDatabase(PreparedStatement preparedStatement) throws SQLException;
+	protected abstract long queryDatabase(PreparedStatement preparedStatement) throws SQLException;
 
-	public void initiateQuery() {
+	public long initiateQuery() {
 		try (Connection connection = DriverManager.getConnection(DB_URL);
-			  PreparedStatement preparedStatement = connection.prepareStatement(preparedSql)) {
-			queryDatabase(preparedStatement);
+			  PreparedStatement preparedStatement = connection.prepareStatement(preparedSql, Statement.RETURN_GENERATED_KEYS)) {
+			return queryDatabase(preparedStatement);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

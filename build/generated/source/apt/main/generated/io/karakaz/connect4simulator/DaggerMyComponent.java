@@ -4,6 +4,7 @@ import dagger.internal.Preconditions;
 import io.karakaz.connect4simulator.board.Board;
 import io.karakaz.connect4simulator.board.BoardModule;
 import io.karakaz.connect4simulator.board.BoardModule_ProvideBoardFactory;
+import io.karakaz.connect4simulator.db.SimulationInserter;
 import javax.annotation.Generated;
 
 @Generated(
@@ -71,12 +72,9 @@ public final class DaggerMyComponent implements MyComponent {
   }
 
   @Override
-  public GameSimulator provideGameSimulator() {
-    return new GameSimulator(provideGame());
+  public Simulator provideSimulator() {
+    return new Simulator(provideSimulationConfig(), new SimulationInserter());
   }
-
-  @Override
-  public void inject(GameSimulator gameSimulator) {}
 
   public static final class Builder {
     private SimulationConfigModule simulationConfigModule;
