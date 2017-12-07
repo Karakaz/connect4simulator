@@ -37,7 +37,13 @@ public class State {
 	}
 
 	public String flatten() {
-		return null;
+		StringBuilder sb = new StringBuilder();
+		for (int y = 0; y < Board.HEIGHT; y++) {
+			for (int x = 0; x < Board.WIDTH; x++) {
+				sb.append(state[x][y].ordinal());
+			}
+		}
+		return sb.toString();
 	}
 
 	@Override

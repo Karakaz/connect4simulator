@@ -1,7 +1,6 @@
 package io.karakaz.connect4simulator;
 
 import dagger.internal.Factory;
-import io.karakaz.connect4simulator.db.SimulationInserter;
 import javax.annotation.Generated;
 import javax.inject.Provider;
 
@@ -12,28 +11,28 @@ import javax.inject.Provider;
 public final class Simulator_Factory implements Factory<Simulator> {
   private final Provider<SimulationConfig> simulationConfigProvider;
 
-  private final Provider<SimulationInserter> simulationInserterProvider;
+  private final Provider<SimulationSaver> simulationSaverProvider;
 
   public Simulator_Factory(
       Provider<SimulationConfig> simulationConfigProvider,
-      Provider<SimulationInserter> simulationInserterProvider) {
+      Provider<SimulationSaver> simulationSaverProvider) {
     this.simulationConfigProvider = simulationConfigProvider;
-    this.simulationInserterProvider = simulationInserterProvider;
+    this.simulationSaverProvider = simulationSaverProvider;
   }
 
   @Override
   public Simulator get() {
-    return new Simulator(simulationConfigProvider.get(), simulationInserterProvider.get());
+    return new Simulator(simulationConfigProvider.get(), simulationSaverProvider.get());
   }
 
   public static Factory<Simulator> create(
       Provider<SimulationConfig> simulationConfigProvider,
-      Provider<SimulationInserter> simulationInserterProvider) {
-    return new Simulator_Factory(simulationConfigProvider, simulationInserterProvider);
+      Provider<SimulationSaver> simulationSaverProvider) {
+    return new Simulator_Factory(simulationConfigProvider, simulationSaverProvider);
   }
 
   public static Simulator newSimulator(
-      SimulationConfig simulationConfig, SimulationInserter simulationInserter) {
-    return new Simulator(simulationConfig, simulationInserter);
+      SimulationConfig simulationConfig, SimulationSaver simulationSaver) {
+    return new Simulator(simulationConfig, simulationSaver);
   }
 }

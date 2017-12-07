@@ -11,7 +11,7 @@ public class StateTableCreator extends DBStatement {
 	protected void queryDatabase(Statement statement) throws SQLException {
 		String sql = "CREATE TABLE "
 			 + "IF NOT EXISTS state ("
-			 + "id INTEGER PRIMARY KEY, "
+			 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			 + "state TEXT NOT NULL UNIQUE)";
 		statement.execute(sql);
 

@@ -19,8 +19,8 @@ public class Simulator {
 		GameSimulator gameSimulator = new GameSimulator(gameProvider, simulationConfig);
 
 		while (!gameSimulator.isDone()) {
-			simulationSaver.savetSimulation(gameSimulator.simulateGame());
-
+			ConnectFourSimulation simulation = gameSimulator.simulateGame();
+			simulationSaver.savetSimulation(simulation);
 		}
 	}
 }

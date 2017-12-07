@@ -11,7 +11,7 @@ public class SimulationTableCreator extends DBStatement {
 	protected void queryDatabase(Statement statement) throws SQLException {
 		String sql = "CREATE TABLE "
 			 + "IF NOT EXISTS simulation ("
-			 + "id INTEGER PRIMARY KEY, "
+			 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			 + "player1_id INTEGER NOT NULL, "
 			 + "player2_id INTEGER NOT NULL, "
 			 + "winner INTEGER NOT NULL, "

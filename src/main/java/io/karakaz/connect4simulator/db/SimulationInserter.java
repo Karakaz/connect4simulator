@@ -11,7 +11,11 @@ import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
 public class SimulationInserter extends DBPreparedStatement {
 
-	private static final String SQL = "INSERT";
+	private static final String SQL =
+		 "INSERT INTO simulation "
+		 + "(player1_id, player2_id, winner) "
+		 + "VALUES (?, ?, ?)";
+
 	private long player1_id;
 	private long player2_id;
 	private int winner;
@@ -33,7 +37,9 @@ public class SimulationInserter extends DBPreparedStatement {
 		preparedStatement.setLong(1, player1_id);
 		preparedStatement.setLong(2, player2_id);
 		preparedStatement.setInt(3, winner);
-		ResultSet resultSet = preparedStatement.executeQuery();
+		preparedStatement.executeUpdate();
+		ResultSet resultSet = preparedStatement.getGeneratedKeys();
+		resultSet.next();
 		return resultSet.getLong(1);
 	}
 }

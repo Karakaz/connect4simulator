@@ -1,10 +1,14 @@
 package io.karakaz.connect4simulator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import io.karakaz.connect4simulator.board.state.State;
 import io.karakaz.connect4simulator.db.SimulationInserter;
+import io.karakaz.connect4simulator.db.SimulationStateInserter;
+import io.karakaz.connect4simulator.db.StateInserter;
 import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
 public class SimulationSaver {
@@ -21,12 +25,16 @@ public class SimulationSaver {
 	}
 
 	public void savetSimulation(ConnectFourSimulation connectFourSimulation) {
-		List<Long> stateIds = saveStates(connectFourSimulation);
+		List<Long> stateOutputIds = saveWinnerStates(connectFourSimulation);
 		long simulation_id = simulationInserter.insertSimulation(connectFourSimulation);
-		simulationStateInserter.insert(simulation_id, stateIds);
+		simulationStateInserter.insert(simulation_id, stateOutputIds);
 	}
 
-	private List<Long> saveStates(ConnectFourSimulation simulation) {
-		return null;
+	private List<Long> saveWinnerStates(ConnectFourSimulation simulation) {
+		List<State> states = simulation.getStateHistory().getStates();
+		return states.stream()
+			 .filter(s -> s.getLatestDisc() == simulation.getWinner())
+			 .map(stateInserter::insertState)
+			 .collect(Collectors.toList());
 	}
 }

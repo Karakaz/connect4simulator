@@ -11,7 +11,7 @@ public class PlayerTableCreator extends DBStatement {
 	protected void queryDatabase(Statement statement) throws SQLException {
 		String sql = "CREATE TABLE "
 			 + "IF NOT EXISTS player ("
-			 + "id INTEGER PRIMARY KEY, "
+			 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			 + "type TEXT NOT NULL, "
 			 + "name TEXT NOT NULL, "
 			 + "created TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)";

@@ -5,6 +5,10 @@ import io.karakaz.connect4simulator.board.Board;
 import io.karakaz.connect4simulator.board.BoardModule;
 import io.karakaz.connect4simulator.board.BoardModule_ProvideBoardFactory;
 import io.karakaz.connect4simulator.db.SimulationInserter;
+import io.karakaz.connect4simulator.db.SimulationStateInserter_Factory;
+import io.karakaz.connect4simulator.db.StateInserter;
+import io.karakaz.connect4simulator.db.StateInserter_Factory;
+import io.karakaz.connect4simulator.db.StateOutputInserter_Factory;
 import javax.annotation.Generated;
 
 @Generated(
@@ -26,6 +30,18 @@ public final class DaggerMyComponent implements MyComponent {
 
   public static Builder builder() {
     return new Builder();
+  }
+
+  private StateInserter getStateInserter() {
+    return StateInserter_Factory.newStateInserter(
+        StateOutputInserter_Factory.newStateOutputInserter());
+  }
+
+  private SimulationSaver getSimulationSaver() {
+    return new SimulationSaver(
+        getStateInserter(),
+        new SimulationInserter(),
+        SimulationStateInserter_Factory.newSimulationStateInserter());
   }
 
   @SuppressWarnings("unchecked")
@@ -73,7 +89,7 @@ public final class DaggerMyComponent implements MyComponent {
 
   @Override
   public Simulator provideSimulator() {
-    return new Simulator(provideSimulationConfig(), new SimulationInserter());
+    return new Simulator(provideSimulationConfig(), getSimulationSaver());
   }
 
   public static final class Builder {

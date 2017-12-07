@@ -11,7 +11,7 @@ public class StateOutputTableCreator extends DBStatement {
 	protected void queryDatabase(Statement statement) throws SQLException {
 		String sql = "CREATE TABLE "
 			 + "IF NOT EXISTS state_output ("
-			 + "id INTEGER PRIMARY KEY, "
+			 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			 + "state_id INTEGER NOT NULL, "
 			 + "output INTEGER NOT NULL)";
 		statement.execute(sql);

@@ -26,4 +26,8 @@ public class ConnectFourSimulation {
 	public Disc getWinner() {
 		return game.getStateHistory().getWinner();
 	}
+
+	public StateHistory getStateHistory() {
+		return game.getStateHistory();
+	}
 }

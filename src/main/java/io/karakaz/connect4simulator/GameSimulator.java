@@ -7,6 +7,8 @@ public class GameSimulator {
 	private final GameProvider gameProvider;
 	private final SimulationConfig simulationConfig;
 
+	private int simulationNr;
+
 	GameSimulator(GameProvider gameProvider, SimulationConfig simulationConfig) {
 		this.gameProvider = gameProvider;
 		this.simulationConfig = simulationConfig;
@@ -17,11 +19,14 @@ public class GameSimulator {
 		while (!game.gameOver().isPresent()) {
 			game.playTurn();
 		}
-		System.out.println(game.getStateHistory());
+//		System.out.println(game.getStateHistory());
 		return new ConnectFourSimulation(game);
 	}
 
 	public boolean isDone() {
-		return false;
+		if (simulationNr++ < simulationConfig.getMaxSimulationNumber()) {
+			return false;
+		}
+		return true;
 	}
 }

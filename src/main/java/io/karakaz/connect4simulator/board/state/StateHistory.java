@@ -44,4 +44,8 @@ public class StateHistory {
 //			 .collect(Collectors.)
 		return null;
 	}
+
+	public List<State> getStates() {
+		return states;
+	}
 }
