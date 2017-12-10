@@ -10,24 +10,28 @@ import io.karakaz.connect4simulator.board.slot.Slot;
 @Module
 public class BoardModule {
 
-	private final Slot[][] slots;
+	private Slot[][] slots;
 
 	public BoardModule() {
 		slots = new Slot[Board.WIDTH][Board.HEIGHT];
-		for (int x = 0; x < slots.length; x++) {
-			for (int y = 0; y < slots[x].length; y++) {
-				slots[x][y] = new Slot();
-			}
-		}
 	}
 
 	@Provides
 	Board provideBoard() {
+		initializeWithEmptySlots();
 		return new Board(
 			 createRows(),
 			 createColumns(),
 			 createForwardDiagonals(),
 			 createBackWardDiagonals());
+	}
+
+	private void initializeWithEmptySlots() {
+		for (int x = 0; x < slots.length; x++) {
+			for (int y = 0; y < slots[x].length; y++) {
+				slots[x][y] = new Slot();
+			}
+		}
 	}
 
 	private Lines<Line> createRows() {

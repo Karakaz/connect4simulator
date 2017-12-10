@@ -1,10 +1,7 @@
 package io.karakaz.connect4simulator.simulation;
 
-import io.karakaz.connect4simulator.Game;
-import io.karakaz.connect4simulator.Player;
+import io.karakaz.connect4simulator.game.Game;
 import io.karakaz.connect4simulator.board.slot.Disc;
-import io.karakaz.connect4simulator.board.state.MirroredState;
-import io.karakaz.connect4simulator.board.state.State;
 import io.karakaz.connect4simulator.board.state.StateHistory;
 
 public class ConnectFourSimulation {

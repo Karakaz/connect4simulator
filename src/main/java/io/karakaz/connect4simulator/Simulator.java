@@ -2,7 +2,11 @@ package io.karakaz.connect4simulator;
 
 import javax.inject.Inject;
 
+import io.karakaz.connect4simulator.game.GameSimulator;
+import io.karakaz.connect4simulator.init.GameProvider;
+import io.karakaz.connect4simulator.init.SimulationConfig;
 import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
+import io.karakaz.connect4simulator.simulation.SimulationSaver;
 
 public class Simulator {
 
@@ -10,7 +14,7 @@ public class Simulator {
 	private final SimulationSaver simulationSaver;
 
 	@Inject
-	Simulator(SimulationConfig simulationConfig, SimulationSaver simulationSaver) {
+	public Simulator(SimulationConfig simulationConfig, SimulationSaver simulationSaver) {
 		this.simulationConfig = simulationConfig;
 		this.simulationSaver = simulationSaver;
 	}

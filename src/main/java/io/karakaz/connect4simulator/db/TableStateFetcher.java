@@ -1,41 +1,51 @@
 package io.karakaz.connect4simulator.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TableStateFetcher extends DBStatement {
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+
+public class TableStateFetcher extends DBPreparedStatement {
 
 	private static final TableStateFetcher INSTANCE = new TableStateFetcher();
 
-	private final Map<String, Long> cache = new HashMap<>();
+	private static final String SQL = "SELECT id FROM state WHERE state = ?";
 
-	private String state;
-	private long id;
+	private final LoadingCache<String, Long> loadingCache;
+
+	private volatile String state;
+
+	private TableStateFetcher() {
+		super(SQL);
+		loadingCache = Caffeine.newBuilder().maximumSize(10_000).build(this::getIdFromDB);
+	}
 
 	public static long fetchId(String state) {
 		return INSTANCE.fetch(state);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	private long fetch(String state) {
-		return cache.computeIfAbsent(state, this::getIdFromDB);
+		return loadingCache.get(state);
 	}
 
 	private synchronized long getIdFromDB(String state) {
 		this.state = state;
-		initiateQuery();
-		return id;
+		return initiateQuery();
 	}
 
 	@Override
-	protected void queryDatabase(Statement statement) throws SQLException {
-		String sql = "SELECT id FROM state "
-			 + "WHERE state = '" + state + "'";
-		ResultSet resultSet = statement.executeQuery(sql);
+	protected long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
+		preparedStatement.setString(1, state);
+		ResultSet resultSet = preparedStatement.executeQuery();
 		if (resultSet.next()) {
-			id = resultSet.getLong("id");
+			return resultSet.getLong("id");
 		}
+		throw new IllegalStateException("State " + state + " not found in the database");
 	}
 }

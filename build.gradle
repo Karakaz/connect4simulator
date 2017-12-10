@@ -27,7 +27,9 @@ repositories {
 
 dependencies {
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.9.1'
+    compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.6.0'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0'
+    compile group: 'com.beust', name: 'jcommander', version: '1.72'
 
     compile group: 'com.google.dagger', name: 'dagger', version: '2.13'
     apt group: 'com.google.dagger', name: 'dagger-compiler', version: '2.13'
