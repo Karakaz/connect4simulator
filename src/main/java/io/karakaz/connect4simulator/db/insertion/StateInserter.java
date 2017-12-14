@@ -35,9 +35,10 @@ public class StateInserter extends DBPreparedStatement {
 		preparedStatement.setString(1, state.flatten());
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if (resultSet.next()) {
+		if (resultSet.next() && resultSet.getLong(1) > 0) {
 			return resultSet.getLong(1);
 		}
 		return TableStateFetcher.fetchId(state.flatten());
 	}
+
 }

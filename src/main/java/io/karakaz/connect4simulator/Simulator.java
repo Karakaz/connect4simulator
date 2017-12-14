@@ -1,5 +1,8 @@
 package io.karakaz.connect4simulator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.karakaz.connect4simulator.game.GameSimulator;
@@ -22,9 +25,15 @@ public class Simulator {
 	public void simulate(GameProvider gameProvider) {
 		GameSimulator gameSimulator = new GameSimulator(gameProvider, simulationConfig);
 
+		List<ConnectFourSimulation> simulations = new ArrayList<>();
+
 		while (!gameSimulator.isDone()) {
-			ConnectFourSimulation simulation = gameSimulator.simulateGame();
-			simulationSaver.savetSimulation(simulation);
+			simulations.add(gameSimulator.simulateGame());
+
+			if (simulations.size() >= simulationConfig.getSqlBatchSize()) {
+				simulationSaver.saveSimulations(simulations);
+				simulations.clear();
+			}
 		}
 	}
 }

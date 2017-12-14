@@ -36,7 +36,9 @@ public class TableStateFetcher extends DBPreparedStatement {
 
 	private synchronized long getIdFromDB(String state) {
 		this.state = state;
-		return initiateQuery();
+		long stateId = initiateQuery();
+		System.out.printf("Got id %d for state %s%n", stateId, state);
+		return stateId;
 	}
 
 	@Override

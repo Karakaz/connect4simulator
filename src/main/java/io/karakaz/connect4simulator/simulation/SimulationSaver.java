@@ -23,7 +23,15 @@ public class SimulationSaver {
 		this.simulationStateInserter = simulationStateInserter;
 	}
 
-	public void savetSimulation(ConnectFourSimulation connectFourSimulation) {
+	public void saveSimulations(List<ConnectFourSimulation> simulations) {
+		for (ConnectFourSimulation simulation : simulations) {
+			simulation.getStateHistory().getStates().stream()
+				 .filter(s -> s.getLatestDisc() == simulation.getWinner())
+				 .collect(Collectors.toList());
+		}
+	}
+
+	public void saveSimulation(ConnectFourSimulation connectFourSimulation) {
 		List<Long> stateOutputIds = saveWinnerStates(connectFourSimulation);
 		long simulation_id = simulationInserter.insertSimulation(connectFourSimulation);
 		simulationStateInserter.insert(simulation_id, stateOutputIds);
