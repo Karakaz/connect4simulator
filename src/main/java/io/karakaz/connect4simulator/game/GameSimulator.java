@@ -32,4 +32,8 @@ public class GameSimulator {
 		}
 		return true;
 	}
+
+	public String getProgress() {
+		return String.format("%.0f%%",100.0 * simulationNr / simulationConfig.getMaxSimulations());
+	}
 }

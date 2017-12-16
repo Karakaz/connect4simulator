@@ -10,7 +10,7 @@ import io.karakaz.connect4simulator.board.slot.Disc;
 import io.karakaz.connect4simulator.db.DBPreparedStatement;
 import io.karakaz.connect4simulator.simulation.ConnectFourSimulation;
 
-public class SimulationInserter extends DBPreparedStatement {
+public class SimulationInserter extends DBPreparedStatement<Long> {
 
 	private static final String SQL =
 		 "INSERT INTO simulation "
@@ -34,7 +34,7 @@ public class SimulationInserter extends DBPreparedStatement {
 	}
 
 	@Override
-	protected long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
+	protected Long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
 		preparedStatement.setLong(1, player1_id);
 		preparedStatement.setLong(2, player2_id);
 		preparedStatement.setInt(3, winner);

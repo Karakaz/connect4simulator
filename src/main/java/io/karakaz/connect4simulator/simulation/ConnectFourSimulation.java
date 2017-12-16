@@ -1,8 +1,8 @@
 package io.karakaz.connect4simulator.simulation;
 
-import io.karakaz.connect4simulator.game.Game;
 import io.karakaz.connect4simulator.board.slot.Disc;
 import io.karakaz.connect4simulator.board.state.StateHistory;
+import io.karakaz.connect4simulator.game.Game;
 
 public class ConnectFourSimulation {
 

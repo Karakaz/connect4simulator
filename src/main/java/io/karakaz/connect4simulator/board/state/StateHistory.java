@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.karakaz.connect4simulator.board.Board;
 import io.karakaz.connect4simulator.board.slot.Disc;
 
 public class StateHistory {
@@ -11,8 +12,9 @@ public class StateHistory {
 	private final List<State> states;
 	private Disc winner;
 
-	public StateHistory() {
+	public StateHistory(Board board) {
 		states = new ArrayList<>();
+		states.add(new State(board));
 	}
 
 	public void addState(State state) {
@@ -23,7 +25,7 @@ public class StateHistory {
 		this.winner = winner;
 	}
 
-	public State getFinalState() {
+	public State getLatestState() {
 		return states.get(states.size() - 1);
 	}
 

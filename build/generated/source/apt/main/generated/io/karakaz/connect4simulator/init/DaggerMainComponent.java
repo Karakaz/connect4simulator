@@ -5,6 +5,7 @@ import io.karakaz.connect4simulator.Simulator;
 import io.karakaz.connect4simulator.board.Board;
 import io.karakaz.connect4simulator.board.BoardModule;
 import io.karakaz.connect4simulator.board.BoardModule_ProvideBoardFactory;
+import io.karakaz.connect4simulator.db.fetchers.TableStateFetcher_Factory;
 import io.karakaz.connect4simulator.db.insertion.SimulationInserter;
 import io.karakaz.connect4simulator.db.insertion.SimulationStateInserter_Factory;
 import io.karakaz.connect4simulator.db.insertion.StateInserter;
@@ -45,6 +46,7 @@ public final class DaggerMainComponent implements MainComponent {
 
   private StateInserter getStateInserter() {
     return StateInserter_Factory.newStateInserter(
+        TableStateFetcher_Factory.newTableStateFetcher(),
         StateOutputInserter_Factory.newStateOutputInserter());
   }
 

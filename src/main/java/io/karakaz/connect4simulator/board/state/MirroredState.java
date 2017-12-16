@@ -10,11 +10,11 @@ public class MirroredState extends State {
 		for (int x = 0; x < mirroredState.length; x++) {
 				mirroredState[x] = state.getState()[Board.WIDTH - x - 1];
 		}
-		return new MirroredState(mirroredState, Board.WIDTH - state.getLatestPosition() - 1, state.getLatestDisc());
+		return new MirroredState(mirroredState, Board.WIDTH - state.getOutput() - 1, state.getOutputDisc());
 	}
 
-	private MirroredState(Disc[][] state, int latestPosition, Disc latestDisc) {
-		super(state, latestPosition, latestDisc);
+	private MirroredState(Disc[][] state, int output, Disc outputDisc) {
+		super(state, output, outputDisc);
 	}
 
 }

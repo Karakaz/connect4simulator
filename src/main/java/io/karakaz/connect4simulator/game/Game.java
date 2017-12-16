@@ -26,7 +26,7 @@ public class Game {
 		this.board = board;
 		this.player1 = player1;
 		this.player2 = player2;
-		stateHistory = new StateHistory();
+		stateHistory = new StateHistory(board);
 		yellowsTurn = false;
 	}
 
@@ -35,7 +35,8 @@ public class Game {
 		Disc disc = (yellowsTurn = !yellowsTurn) ? Disc.YELLOW : Disc.RED;
 		int position = availableMoves.get(random.nextInt(availableMoves.size()));
 		board.dropDisc(position, disc);
-		stateHistory.addState(new State(board, position, disc));
+		stateHistory.getLatestState().registerOutput(position, disc);
+		stateHistory.addState(new State(board));
 	}
 
 	public Optional<Disc> gameOver() {

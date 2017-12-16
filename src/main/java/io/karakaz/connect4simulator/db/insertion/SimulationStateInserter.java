@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import io.karakaz.connect4simulator.db.DBPreparedStatement;
 
-public class SimulationStateInserter extends DBPreparedStatement {
+public class SimulationStateInserter extends DBPreparedStatement<Void> {
 
 	private static final String SQL =
 		 "INSERT INTO simulation_state "
@@ -32,10 +32,10 @@ public class SimulationStateInserter extends DBPreparedStatement {
 	}
 
 	@Override
-	protected long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
+	protected Void queryDatabase(PreparedStatement preparedStatement) throws SQLException {
 		preparedStatement.setLong(1, simulation_id);
 		preparedStatement.setLong(2, state_output_id);
 		preparedStatement.executeUpdate();
-		return 0;
+		return null;
 	}
 }

@@ -1,44 +1,58 @@
 package io.karakaz.connect4simulator.db.insertion;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import io.karakaz.connect4simulator.board.state.State;
 import io.karakaz.connect4simulator.db.DBPreparedStatement;
-import io.karakaz.connect4simulator.db.TableStateFetcher;
+import io.karakaz.connect4simulator.db.data.StateOutput;
+import io.karakaz.connect4simulator.db.fetchers.TableStateFetcher;
 
-public class StateInserter extends DBPreparedStatement {
+public class StateInserter extends DBPreparedStatement<Map<String, Long>> {
 
 	private static final String SQL = "INSERT OR IGNORE INTO state (state) VALUES (?)";
 
-	private StateOutputInserter stateOutputInserter;
+	private final TableStateFetcher stateFetcher;
+	private final StateOutputInserter stateOutputInserter;
 
-	private State state;
+	private List<String> statesAsString;
 
 	@Inject
-	StateInserter(StateOutputInserter stateOutputInserter) {
+	StateInserter(TableStateFetcher stateFetcher, StateOutputInserter stateOutputInserter) {
 		super(SQL);
+		this.stateFetcher = stateFetcher;
 		this.stateOutputInserter = stateOutputInserter;
 	}
 
-	public long insertState(State state) {
-		this.state = state;
-		long stateId = initiateQuery();
-		return stateOutputInserter.insertStateOutput(stateId, state.getLatestPosition());
+	public List<StateOutput> saveWinnerStates(List<State> winnerStates) {
+		statesAsString = winnerStates.stream()
+			 .map(State::flatten)
+			 .collect(Collectors.toList());
+		Map<String, Long> stateIds = initiateQuery();
+
+		List<StateOutput> stateOutputs = winnerStates.stream()
+			 .map(s -> new StateOutput(stateIds.get(s.flatten()), s.getOutput()))
+			 .collect(Collectors.toList());
+
+		for (StateOutput stateOutput : stateOutputs) {
+			long id = stateOutputInserter.insertStateOutput(stateOutput.getStateId(), stateOutput.getOutput());
+			stateOutput.setId(id);
+		}
+		return stateOutputs;
 	}
 
 	@Override
-	protected long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
-		preparedStatement.setString(1, state.flatten());
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if (resultSet.next() && resultSet.getLong(1) > 0) {
-			return resultSet.getLong(1);
+	protected Map<String, Long> queryDatabase(PreparedStatement preparedStatement) throws SQLException {
+		for (String state : statesAsString) {
+			preparedStatement.setString(1, state);
+			preparedStatement.addBatch();
 		}
-		return TableStateFetcher.fetchId(state.flatten());
+		preparedStatement.executeBatch();
+		return stateFetcher.fetchIds(statesAsString);
 	}
-
 }

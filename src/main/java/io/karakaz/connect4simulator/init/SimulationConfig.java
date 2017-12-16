@@ -7,7 +7,7 @@ public class SimulationConfig {
 
 	SimulationConfig(int maxSimulations) {
 		this.maxSimulations = maxSimulations;
-		sqlBatchSize = 1000;
+		sqlBatchSize = 100;
 	}
 
 	public int getMaxSimulations() {

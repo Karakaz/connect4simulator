@@ -31,9 +31,13 @@ public class Simulator {
 			simulations.add(gameSimulator.simulateGame());
 
 			if (simulations.size() >= simulationConfig.getSqlBatchSize()) {
+				System.out.println("Saving simulations, progress " + gameSimulator.getProgress());
 				simulationSaver.saveSimulations(simulations);
 				simulations.clear();
 			}
+		}
+		if (!simulations.isEmpty()) {
+			simulationSaver.saveSimulations(simulations);
 		}
 	}
 }

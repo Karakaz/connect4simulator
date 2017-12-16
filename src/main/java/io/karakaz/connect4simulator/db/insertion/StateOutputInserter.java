@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import io.karakaz.connect4simulator.db.DBPreparedStatement;
 
-public class StateOutputInserter extends DBPreparedStatement {
+public class StateOutputInserter extends DBPreparedStatement<Long> {
 
 	private static final String SQL = "INSERT INTO state_output (state_id, output) VALUES (?, ?)";
 	private long stateId;
@@ -26,13 +26,13 @@ public class StateOutputInserter extends DBPreparedStatement {
 	}
 
 	@Override
-	protected long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
+	protected Long queryDatabase(PreparedStatement preparedStatement) throws SQLException {
 		preparedStatement.setLong(1, stateId);
 		preparedStatement.setInt(2, output);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if (resultSet.next()) {
-			return resultSet.getInt(1);
+			return resultSet.getLong(1);
 		}
 		throw new IllegalStateException(String.format(
 			 "Unable to insert or retrieve the id. stateId: %d, output: %d",
