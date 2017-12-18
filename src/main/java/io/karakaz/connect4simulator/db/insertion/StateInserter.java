@@ -29,21 +29,19 @@ public class StateInserter extends DBPreparedStatement<Map<String, Long>> {
 		this.stateOutputInserter = stateOutputInserter;
 	}
 
-	public List<StateOutput> saveWinnerStates(List<State> winnerStates) {
+	public List<Long> saveWinnerStates(List<State> winnerStates) {
 		statesAsString = winnerStates.stream()
 			 .map(State::flatten)
 			 .collect(Collectors.toList());
 		Map<String, Long> stateIds = initiateQuery();
 
-		List<StateOutput> stateOutputs = winnerStates.stream()
-			 .map(s -> new StateOutput(stateIds.get(s.flatten()), s.getOutput()))
+		return winnerStates.stream()
+			 .map(s -> insertStateOutput(s, stateIds))
 			 .collect(Collectors.toList());
+	}
 
-		for (StateOutput stateOutput : stateOutputs) {
-			long id = stateOutputInserter.insertStateOutput(stateOutput.getStateId(), stateOutput.getOutput());
-			stateOutput.setId(id);
-		}
-		return stateOutputs;
+	private long insertStateOutput(State state, Map<String, Long> stateIds) {
+		return stateOutputInserter.insertStateOutput(stateIds.get(state.flatten()), state.getOutput());
 	}
 
 	@Override

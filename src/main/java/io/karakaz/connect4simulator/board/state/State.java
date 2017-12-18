@@ -19,8 +19,9 @@ public class State {
 	}
 
 	public State(Board board) {
-		this.state = board.getState();
-		this.boardAsString = board.toString();
+		state = board.getState();
+		boardAsString = board.toString();
+		outputDisc = Disc.NONE;
 	}
 
 	public void registerOutput(int output, Disc outputDisc) {

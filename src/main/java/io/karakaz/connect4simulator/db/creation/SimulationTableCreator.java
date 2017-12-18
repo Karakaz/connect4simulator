@@ -14,6 +14,7 @@ public class SimulationTableCreator extends DBStatement {
 			 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			 + "player1_id INTEGER NOT NULL, "
 			 + "player2_id INTEGER NOT NULL, "
+			 + "turns TEXT NOT NULL UNIQUE, "
 			 + "winner INTEGER NOT NULL, "
 			 + "created TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 		statement.execute(sql);

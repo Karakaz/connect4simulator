@@ -11,7 +11,7 @@ public class SimulationConfigModule {
 
 	private final Args args;
 
-	SimulationConfigModule(Args args) {
+	public SimulationConfigModule(Args args) {
 		this.args = args;
 	}
 

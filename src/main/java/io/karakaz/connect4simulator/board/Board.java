@@ -15,7 +15,7 @@ import io.karakaz.connect4simulator.board.slot.Slot;
 public class Board {
 	public static final int WIDTH = 7;
 	public static final int HEIGHT = 6;
-	public static final String COLUMN_TOKEN = "|";
+	private static final String COLUMN_TOKEN = "|";
 
 	private final List<Lines<? extends Line>> allLines;
 	private final Lines<Line> rows;

@@ -2,11 +2,13 @@ package io.karakaz.connect4simulator.simulation;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import io.karakaz.connect4simulator.board.state.MirroredState;
 import io.karakaz.connect4simulator.board.state.State;
 import io.karakaz.connect4simulator.db.data.StateOutput;
 import io.karakaz.connect4simulator.db.insertion.SimulationInserter;
@@ -27,13 +29,19 @@ public class SimulationSaver {
 	}
 
 	public void saveSimulations(List<ConnectFourSimulation> simulations) {
-		Map<ConnectFourSimulation, List<State>> winnerStatesBySimulation = simulations.stream()
-			 .collect(Collectors.toMap(Function.identity(), this::getWinnerStates));
+		for (ConnectFourSimulation simulation : simulations) {
+			Optional<Long> simulationId = simulationInserter.insertSimulation(simulation);
+			simulationId.ifPresent(id -> saveSimulation(id, simulation));
+		}
+	}
 
-		winnerStatesBySimulation.forEach((simulation, states) -> {
-			List<StateOutput> stateOutputs = stateInserter.saveWinnerStates(states);
-			saveSimulation(simulation, stateOutputs);
-		});
+	private void saveSimulation(Long simulationId, ConnectFourSimulation simulation) {
+		List<State> winnerStates = getWinnerStates(simulation);
+		saveStates(simulationId, winnerStates);
+
+		Long mirroredId = simulationInserter.insertMirroredSimulation(simulation);
+		List<State> winnerStatesMirrored = getWinnerStatesMirrored(winnerStates);
+		saveStates(mirroredId, winnerStatesMirrored);
 	}
 
 	private List<State> getWinnerStates(ConnectFourSimulation simulation) {
@@ -42,10 +50,15 @@ public class SimulationSaver {
 			 .collect(Collectors.toList());
 	}
 
-	public void saveSimulation(ConnectFourSimulation connectFourSimulation, List<StateOutput> stateOutputs) {
-		List<Long> stateOutputIds = stateOutputs.stream().map(StateOutput::getId).collect(Collectors.toList());
-		long simulation_id = simulationInserter.insertSimulation(connectFourSimulation);
-		simulationStateInserter.insert(simulation_id, stateOutputIds);
+	private List<State> getWinnerStatesMirrored(List<State> winnerStates) {
+		return winnerStates.stream()
+			 .map(MirroredState::from)
+			 .collect(Collectors.toList());
+	}
+
+	private void saveStates(Long simulationId, List<State> states) {
+		List<Long> stateOutputIds = stateInserter.saveWinnerStates(states);
+		simulationStateInserter.insert(simulationId, stateOutputIds);
 	}
 
 }

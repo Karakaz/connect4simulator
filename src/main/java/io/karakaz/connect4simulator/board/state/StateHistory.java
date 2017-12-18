@@ -40,13 +40,6 @@ public class StateHistory {
 		return winner;
 	}
 
-	public String toCSV() {
-//		states.stream()
-//			 .map(State::flatten)
-//			 .collect(Collectors.)
-		return null;
-	}
-
 	public List<State> getStates() {
 		return states;
 	}
